@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
+class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +21,7 @@ class LoginPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(height: 80),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
             const Padding(
               padding: EdgeInsets.all(20),
               child: Column(
@@ -57,16 +55,33 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(30),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      const SizedBox(height: 60),
+                      const Icon(
+                        Icons.public,
+                        size: 100,
+                        color: Colors.lightBlueAccent,
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
+                      const Text(
+                        'GeoTales',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.04),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
-                          boxShadow: const [
-                            BoxShadow(
+                          boxShadow: [
+                            const BoxShadow(
                               color: Color.fromRGBO(225, 95, 27, .3),
                               blurRadius: 20,
                               offset: Offset(0, 10),
@@ -84,13 +99,14 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 30),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
-                          boxShadow: const [
-                            BoxShadow(
+                          boxShadow: [
+                            const BoxShadow(
                               color: Color.fromRGBO(225, 95, 27, .3),
                               blurRadius: 20,
                               offset: Offset(0, 10),
@@ -109,7 +125,8 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 30),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.06),
                       Container(
                         height: 50,
                         margin: const EdgeInsets.symmetric(horizontal: 50),
@@ -128,12 +145,59 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 30),
-                      const Text(
-                        "Forgot Password?",
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Forgot Password?",
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.01),
+                          TextButton(
+                            onPressed: () {
+                              // Add your navigation logic here
+                            },
+                            child: Text(
+                              "Reset",
+                              style: TextStyle(
+                                color: Colors.blue[800],
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.005),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Don't have an account?",
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.01),
+                          TextButton(
+                            onPressed: () {
+                              // Add your navigation logic here
+                            },
+                            child: Text(
+                              "Create Account",
+                              style: TextStyle(
+                                color: Colors.blue[800],
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

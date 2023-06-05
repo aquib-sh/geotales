@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:geotales/providers/map_provider.dart';
 import 'package:geotales/providers/session_provider.dart';
-import 'package:geotales/screens/splash_screen.dart';
+import 'package:geotales/screens/login_screen.dart';
+//import 'package:geotales/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -21,12 +22,12 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'GeoTales',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: SplashScreen(),
+        home: LoginScreen(),
       ),
     );
   }
