@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1500),
     );
 
     _animation = Tween<double>(begin: 0, end: 1).animate(
@@ -51,14 +51,14 @@ class _SplashScreenState extends State<SplashScreen>
                   child: child,
                 );
               },
-              child: Icon(
+              child: const Icon(
                 Icons.public,
                 size: 100,
                 color: Colors.lightBlueAccent,
               ),
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'GeoTales',
               style: TextStyle(
                 fontSize: 24,
@@ -66,8 +66,8 @@ class _SplashScreenState extends State<SplashScreen>
                 color: Colors.black,
               ),
             ),
-            SizedBox(height: 40),
-            CircularProgressIndicator(),
+            const SizedBox(height: 40),
+            const CircularProgressIndicator(),
           ],
         ),
       ),
