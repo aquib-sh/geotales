@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "792512183935",
+    "project_id": "geotales-f2ee3",
+    "storage_bucket": "geotales-f2ee3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792512183935:android:09ee72e4d3087e620ac94a",
+        "android_client_info": {
+          "package_name": "com.example.geotales"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792512183935-o4d50trgt9p9bgnfdjtobv3euvokocc0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqgzkR_FN2NTuN2vlakmDDncUc7EDXfOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792512183935-2on4c5jsfrdcj9vd3p3ee3o17rdsrivr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "792512183935-ev535m8assq3b6f1fbho6cobic1noft9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.geotales.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
