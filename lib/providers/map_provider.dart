@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:geotales/models/user_file.dart';
 import 'package:geotales/widgets/marker_dialog.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -13,7 +12,7 @@ class MapProvider extends ChangeNotifier {
   final MapController mapController = MapController();
 
   // Basic map settings
-  LatLng currentLocation = const LatLng(18.9932969, 72.8202488);
+  LatLng currentLocation = LatLng(18.9932969, 72.8202488);
   final double zoom = 10.0;
   final double maxZoom = 18.0;
   final double minZoom = 1.0;

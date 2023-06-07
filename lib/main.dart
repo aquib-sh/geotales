@@ -5,6 +5,7 @@ import 'package:geotales/providers/file_provider.dart';
 import 'package:geotales/providers/map_provider.dart';
 import 'package:geotales/providers/session_provider.dart';
 import 'package:geotales/screens/login_screen.dart';
+import 'package:geotales/widgets/file_upload_dialog.dart';
 //import 'package:geotales/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (context) => SessionProvider(FirebaseAuth.instance)),
         ChangeNotifierProvider(create: (context) => MapProvider()),
-        ChangeNotifierProvider(create: (context) => FileProvider())
+        ChangeNotifierProvider(create: (context) => FileProvider()),
+        ChangeNotifierProvider(create: (context) => FileUploadProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
