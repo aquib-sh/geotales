@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:geotales/data/countries_data.dart';
 
 class SessionProvider extends ChangeNotifier {
   TextEditingController emailFieldController = TextEditingController();
@@ -24,7 +23,6 @@ class SessionProvider extends ChangeNotifier {
       final UserCredential result =
           await _firebaseAuth.signInWithEmailAndPassword(
               email: enteredEmail, password: enteredPassword);
-      print(result);
       userId = result.user?.uid; // update the userId
       email = enteredEmail; // update the email
 
@@ -57,6 +55,10 @@ class SessionProvider extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       return e.message;
     }
+  }
+
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
   }
 
   void setSelectedCountry(String country) {

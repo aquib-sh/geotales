@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:geotales/providers/file_provider.dart';
 import 'package:geotales/providers/map_provider.dart';
 import 'package:geotales/providers/session_provider.dart';
 import 'package:geotales/screens/login_screen.dart';
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
             create: (context) => SessionProvider(FirebaseAuth.instance)),
-        ChangeNotifierProvider(create: (context) => MapProvider())
+        ChangeNotifierProvider(create: (context) => MapProvider()),
+        ChangeNotifierProvider(create: (context) => FileProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
