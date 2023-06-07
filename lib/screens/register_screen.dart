@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:geotales/data/countries_data.dart';
 import 'package:geotales/providers/session_provider.dart';
-import 'package:geotales/screens/register_screen.dart';
+import 'package:geotales/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<SessionProvider>(
@@ -32,7 +33,7 @@ class LoginScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Login',
+                      'Register',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 40,
@@ -40,7 +41,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Welcome back',
+                      'Create an account',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -69,7 +70,8 @@ class LoginScreen extends StatelessWidget {
                           color: Colors.lightBlueAccent,
                         ),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.01),
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
                         const Text(
                           'GeoTales',
                           style: TextStyle(
@@ -79,7 +81,8 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.04),
+                          height: MediaQuery.of(context).size.height * 0.04,
+                        ),
                         Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -105,7 +108,8 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.03),
+                          height: MediaQuery.of(context).size.height * 0.03,
+                        ),
                         Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -132,16 +136,112 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.06),
+                          height: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromRGBO(225, 95, 27, .3),
+                                blurRadius: 20,
+                                offset: Offset(0, 10),
+                              ),
+                            ],
+                          ),
+                          child: DropdownButtonFormField<String>(
+                            decoration: const InputDecoration(
+                              hintText: "Country",
+                              prefixIcon: Icon(
+                                Icons.location_on,
+                                color: Colors.grey,
+                              ),
+                              border: InputBorder.none,
+                            ),
+                            items: countriesData.keys
+                                .map<DropdownMenuItem<String>>(
+                                    (String country) =>
+                                        DropdownMenuItem<String>(
+                                            value: country,
+                                            child: Text(country)))
+                                .toList(),
+                            // Add more country options here
+                            onChanged: (value) {
+                              // Handle country selection
+                              session.setSelectedCountry(value!);
+                            },
+                            value: session.selectedCountry,
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        if (session.selectedCountry != null)
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color.fromRGBO(225, 95, 27, .3),
+                                  blurRadius: 20,
+                                  offset: Offset(0, 10),
+                                ),
+                              ],
+                            ),
+                            child: DropdownButtonFormField<String>(
+                              decoration: const InputDecoration(
+                                hintText: "City",
+                                prefixIcon: Icon(
+                                  Icons.location_city,
+                                  color: Colors.grey,
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              items: countriesData[session.selectedCountry]
+                                  ?.map<DropdownMenuItem<String>>(
+                                      (String city) => DropdownMenuItem<String>(
+                                            value: city,
+                                            child: Text(city),
+                                          ))
+                                  .toList(),
+                              onChanged: (value) {
+                                // Handle city selection
+                                session.setSelectedCity(value!);
+                              },
+                              value: session.selectedCity,
+                            ),
+                          ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.06,
+                        ),
                         GestureDetector(
                           onTap: () async {
-                            String? signInResult = await session.signIn();
-                            if (signInResult != null && context.mounted) {
+                            // Perform registration logic here
+                            String? signUpResult = await session.signUp();
+
+                            // Show error snackbar if failed
+                            if (signUpResult != null && context.mounted) {
                               ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text("Incorrect username or password"),
+                                  .showSnackBar(SnackBar(
+                                content:
+                                    Text("Unable to register, $signUpResult"),
                                 backgroundColor: Colors.red,
                               ));
+                            } else {
+                              // Show success snackbar
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text("Successfully registered!"),
+                                backgroundColor: Colors.green,
+                              ));
+
+                              // Move to LoginScreen
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
                             }
                           },
                           child: Container(
@@ -153,7 +253,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                             child: const Center(
                               child: Text(
-                                "Login",
+                                "Register",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
@@ -164,58 +264,29 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.03),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Forgot Password?",
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.01),
-                            TextButton(
-                              onPressed: () {
-                                // Add your navigation logic here
-                              },
-                              child: Text(
-                                "Reset",
-                                style: TextStyle(
-                                  color: Colors.blue[800],
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
+                          height: MediaQuery.of(context).size.height * 0.03,
                         ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.005),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              "Don't have an account?",
+                              "Already have an account?",
                               style: TextStyle(
                                 color: Colors.grey,
                               ),
                             ),
                             SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.01),
+                              width: MediaQuery.of(context).size.width * 0.01,
+                            ),
                             TextButton(
-                              onPressed: () {
-                                // Add your navigation logic here
+                              onPressed: () async {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            RegisterScreen()));
+                                        builder: (context) => LoginScreen()));
                               },
                               child: Text(
-                                "Create Account",
+                                "Login",
                                 style: TextStyle(
                                   color: Colors.blue[800],
                                   fontWeight: FontWeight.bold,
