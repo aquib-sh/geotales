@@ -11,10 +11,10 @@ class FileProvider extends ChangeNotifier {
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      markerFiles = List<UserFile>.from(
-        data.map((item) => UserFile.fromJson(item)),
-      );
+      final List<dynamic> responseData = jsonDecode(response.body);
+      markerFiles = responseData
+          .map((item) => UserFile.fromJson(item as Map<String, dynamic>))
+          .toList();
     } else {
       print('Failed to fetch images');
     }

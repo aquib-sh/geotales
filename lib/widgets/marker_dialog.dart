@@ -61,7 +61,7 @@ class MarkerDialog extends StatelessWidget {
                             ],
                           ),
                           leading: Image.memory(
-                            base64Decode(markerFile.base64Image),
+                            base64Decode(markerFile.data),
                             width: 50,
                             height: 50,
                             fit: BoxFit.cover,

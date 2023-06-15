@@ -43,6 +43,9 @@ dependencies:
   latlong2: ^0.8.2
   flutter_map: ^4.0.0
   image_picker: ^0.8.7+5
+  uuid: ^3.0.7
+  mime: ^1.0.4
+  http_parser: ^4.0.2
 
 
 dev_dependencies:

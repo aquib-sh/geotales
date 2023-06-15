@@ -17,13 +17,17 @@ class HomeScreen extends StatelessWidget {
         body: FlutterMap(
           mapController: map.mapController,
           options: MapOptions(
-            center: map.currentLocation,
-            zoom: map.zoom,
-            maxZoom: map.maxZoom,
-            minZoom: map.minZoom,
-            onTap: (tapPosition, point) => map.mapClickEvent(
-                context: context, position: tapPosition, coordinates: point),
-          ),
+              center: map.currentLocation,
+              zoom: map.zoom,
+              maxZoom: map.maxZoom,
+              minZoom: map.minZoom,
+              onTap: (tapPosition, point) {
+                files.fetchImages();
+                map.mapClickEvent(
+                    context: context,
+                    position: tapPosition,
+                    coordinates: point);
+              }),
           children: [
             TileLayer(
               urlTemplate: map.urlTemplate,
