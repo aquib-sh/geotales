@@ -12,6 +12,7 @@ class MarkerDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       color: Colors.transparent,
       child: Dialog(
@@ -30,41 +31,55 @@ class MarkerDialog extends StatelessWidget {
                 children: [
                   Text(
                     '(${map.currentLocation.latitude}, ${map.currentLocation.longitude})',
-                    style: const TextStyle(fontSize: 12, color: Colors.brown),
+                    style: TextStyle(fontSize: 12, color: Colors.brown),
                   ),
                   SizedBox(
                     height: constraints.maxHeight * 0.5,
                     child: ListView.separated(
                       itemCount: files.markerFiles.length,
-                      separatorBuilder: (context, index) => Divider(),
+                      separatorBuilder: (context, index) => const Divider(),
                       itemBuilder: (context, index) {
                         final markerFile = files.markerFiles[index];
                         return ListTile(
                           title: Text(
                             markerFile.fileName,
-                            style: const TextStyle(
-                                fontSize: 15, color: Colors.black),
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: theme.primaryColor,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "Posted by ${markerFile.userEmail}",
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.blueGrey),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: theme.colorScheme.secondary,
+                                ),
                               ),
                               Text(
                                 "Date: ${markerFile.uploadTimestamp}",
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.blueGrey),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: theme.colorScheme.secondary,
+                                ),
                               ),
                             ],
                           ),
-                          leading: Image.memory(
-                            base64Decode(markerFile.data),
+                          leading: Container(
                             width: 50,
                             height: 50,
-                            fit: BoxFit.cover,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: MemoryImage(
+                                  base64Decode(markerFile.data),
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         );
                       },
@@ -73,17 +88,21 @@ class MarkerDialog extends StatelessWidget {
                   const SizedBox(height: 16.0),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: TextButton(
+                    child: ElevatedButton(
                       onPressed: () {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog(
+                            return const AlertDialog(
                               content: FileUploadDialog(),
                             );
                           },
                         );
                       },
+                      style: ElevatedButton.styleFrom(
+                        primary: theme.primaryColor,
+                        onPrimary: Colors.white,
+                      ),
                       child: const Text("Upload File"),
                     ),
                   ),
