@@ -3,13 +3,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geotales/providers/file_upload_provider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mime_type/mime_type.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:http/http.dart' as http;
-import 'package:uuid/uuid.dart';
 
 class FileUploadDialog extends StatelessWidget {
   const FileUploadDialog({super.key});
+
+  String _getMimeType(String filePath) {
+    String? mimeType = mime(filePath);
+    return mimeType ?? 'application/octet-stream';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +52,13 @@ class FileUploadDialog extends StatelessWidget {
                           );
                           if (pickedFile != null) {
                             final bytes = await pickedFile.readAsBytes();
+                            final mimeType = _getMimeType(pickedFile.path);
                             final imageData = {
                               'filename': pickedFile.name,
                               'data': bytes,
                               'url': pickedFile.path,
                               'path': pickedFile.path,
-                              'mimeType': pickedFile.mimeType
+                              'mimeType': mimeType,
                             };
                             fileUploadProvider.addImage(imageData);
                           }
@@ -68,12 +73,13 @@ class FileUploadDialog extends StatelessWidget {
                           );
                           if (pickedFile != null) {
                             final bytes = await pickedFile.readAsBytes();
+                            final mimeType = _getMimeType(pickedFile.path);
                             final imageData = {
                               'filename': pickedFile.name,
                               'data': bytes,
                               'url': pickedFile.path,
                               'path': pickedFile.path,
-                              'mimeType': pickedFile.mimeType
+                              'mimeType': mimeType,
                             };
                             fileUploadProvider.addImage(imageData);
                           }
@@ -98,59 +104,6 @@ class FileUploadDialog extends StatelessWidget {
     );
   }
 }
-
-// class FileUploadProvider with ChangeNotifier {
-//   final List<Map<String, dynamic>> _imageDataList = [];
-
-//   List<Map<String, dynamic>> get imageDataList => _imageDataList;
-
-//   bool get canUpload => _imageDataList.isNotEmpty;
-
-//   void addImage(Map<String, dynamic> imageData) {
-//     _imageDataList.add(imageData);
-//     notifyListeners();
-//   }
-
-//   void removeImage(int index) {
-//     _imageDataList.removeAt(index);
-//     notifyListeners();
-//   }
-
-//   void uploadImages() async {
-//     for (var imageData in _imageDataList) {
-//       // Perform the file upload logic using the provider data
-
-//       // Required fields
-//       final request = http.MultipartRequest(
-//           "POST", Uri.parse("http://localhost:3000/upload"));
-//       request.fields['id'] = const Uuid().v4();
-//       // TODO: Add userID from session provider
-//       request.fields['userId'] = ;
-//       request.fields['userEmail'] = imageData['userEmail'];
-//       request.fields['fileName'] = imageData['fileName'];
-//       request.fields['fileType'] = imageData['fileType'];
-//       request.fields['latitude'] = imageData['latitude'];
-//       request.fields['longitude'] = imageData['longitude'];
-//       request.fields['uploadTimestamp'] = imageData['uploadTimestamp'];
-
-//       // Send the request
-//       final response = await request.send();
-
-//       // Check the response status
-//       if (response.statusCode == 200) {
-//         // Successful upload
-//         print('Image uploaded successfully');
-//       } else {
-//         // Failed upload
-//         print('Image upload failed with status code: ${response.statusCode}');
-//       }
-
-//       // Remove the uploaded image from the list
-//       _imageDataList.remove(imageData);
-//       notifyListeners();
-//     }
-//   }
-// }
 
 class DismissibleImage extends StatelessWidget {
   final String imageUrl;
