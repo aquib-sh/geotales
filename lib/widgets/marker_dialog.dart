@@ -74,8 +74,8 @@ class MarkerDialog extends StatelessWidget {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: MemoryImage(
-                                  base64Decode(markerFile.data),
+                                image: NetworkImage(
+                                  markerFile.url,
                                 ),
                                 fit: BoxFit.cover,
                               ),
@@ -100,8 +100,8 @@ class MarkerDialog extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: theme.primaryColor,
-                        onPrimary: Colors.white,
+                        foregroundColor: Colors.white,
+                        backgroundColor: theme.primaryColor,
                       ),
                       child: const Text("Upload File"),
                     ),
