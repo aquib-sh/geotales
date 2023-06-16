@@ -21,6 +21,7 @@ class FileProvider extends ChangeNotifier {
   }
 
   Future<void> fetchUserUploadedImages(String userId) async {
+    markerFiles = [];
     final url = Uri.parse('http://localhost:3000/images/user/$userId');
     final response = await http.get(url);
 

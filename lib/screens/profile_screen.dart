@@ -12,71 +12,103 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(title: const Text('Profile')),
       body: Consumer2<SessionProvider, FileProvider>(
         builder: (context, session, files, child) {
-          files.fetchUserUploadedImages(session.userId!);
+          files.fetchImages();
+          final userFiles = files.markerFiles
+              .where((markerFile) => markerFile.userEmail == session.email)
+              .toList();
 
-          return OrientationBuilder(
-            builder: (context, orientation) {
-              int crossAxisCount = orientation == Orientation.portrait ? 3 : 5;
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      session.email!,
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold),
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 40,
+                        //backgroundImage:
+                        //NetworkImage('https://via.placeholder.com/150'),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              session.email!,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            const Text(
+                              'Bio',
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Divider(color: Colors.grey),
+                const SizedBox(height: 16),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Gallery',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Expanded(
-                    child: GridView.builder(
-                      padding: const EdgeInsets.all(4),
-                      itemCount: files.markerFiles.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: crossAxisCount,
-                        crossAxisSpacing: 4,
-                        mainAxisSpacing: 4,
-                      ),
-                      itemBuilder: (context, index) {
-                        final markerFile = files.markerFiles[index];
-                        return InkWell(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Dialog(
-                                  child: InteractiveViewer(
-                                    panEnabled: true,
-                                    boundaryMargin: const EdgeInsets.all(8),
-                                    minScale: 0.5,
-                                    maxScale: 4,
-                                    child: AspectRatio(
-                                      aspectRatio: 1,
-                                      child: Image.network(
-                                        markerFile.url,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
+                ),
+                const SizedBox(height: 16),
+                GridView.builder(
+                  padding: const EdgeInsets.all(4),
+                  itemCount: userFiles.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 4,
+                  ),
+                  itemBuilder: (context, index) {
+                    final markerFile = userFiles[index];
+                    return InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              child: InteractiveViewer(
+                                panEnabled: true,
+                                boundaryMargin: const EdgeInsets.all(8),
+                                minScale: 0.5,
+                                maxScale: 4,
+                                child: Image.network(
+                                  markerFile.url,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
                             );
                           },
-                          child: AspectRatio(
-                            aspectRatio: 1,
-                            child: Image.network(
-                              markerFile.url,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
                         );
                       },
-                    ),
-                  ),
-                ],
-              );
-            },
+                      child: Image.network(
+                        markerFile.url,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                ),
+              ],
+            ),
           );
         },
       ),
