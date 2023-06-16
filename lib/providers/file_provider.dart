@@ -19,4 +19,18 @@ class FileProvider extends ChangeNotifier {
       print('Failed to fetch images');
     }
   }
+
+  Future<void> fetchUserUploadedImages(String userId) async {
+    final url = Uri.parse('http://localhost:3000/images/user/$userId');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> responseData = jsonDecode(response.body);
+      markerFiles = responseData
+          .map((item) => UserFile.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } else {
+      print('Failed to fetch images');
+    }
+  }
 }
