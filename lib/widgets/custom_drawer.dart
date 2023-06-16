@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geotales/providers/session_provider.dart';
 import 'package:geotales/screens/home_screen.dart';
 import 'package:geotales/screens/login_screen.dart';
+import 'package:geotales/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -56,6 +57,10 @@ class CustomDrawer extends StatelessWidget {
               title: const Text('Profile'),
               onTap: () {
                 // Handle profile navigation
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfilePage()));
               },
             ),
             ListTile(
