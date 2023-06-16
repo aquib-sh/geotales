@@ -20,7 +20,7 @@ class ProfilePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  session.userId!,
+                  session.email!,
                   style: const TextStyle(
                       fontSize: 24, fontWeight: FontWeight.bold),
                 ),
