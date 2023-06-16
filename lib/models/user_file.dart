@@ -22,10 +22,6 @@ class UserFile {
   });
 
   factory UserFile.fromJson(Map<String, dynamic> json) {
-    for (String k in json.keys) {
-      if (k != 'data') print("$k : ${json[k].toString().length}");
-    }
-
     return UserFile(
       id: json['id'],
       userId: json['userId'],

@@ -25,7 +25,10 @@ class MarkerDialog extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(16.0),
             child: Consumer2<FileProvider, MapProvider>(
-              builder: (context, files, map, child) => Column(
+                builder: (context, files, map, child) {
+              files.fetchImages(); // fetch the latest images
+
+              return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -98,6 +101,7 @@ class MarkerDialog extends StatelessWidget {
                             );
                           },
                         );
+                        files.fetchImages();
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
@@ -107,8 +111,8 @@ class MarkerDialog extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            ),
+              );
+            }),
           ),
         ),
       ),
