@@ -34,7 +34,7 @@ class MarkerDialog extends StatelessWidget {
                 children: [
                   Text(
                     '(${map.currentLocation.latitude}, ${map.currentLocation.longitude})',
-                    style: TextStyle(fontSize: 12, color: Colors.brown),
+                    style: const TextStyle(fontSize: 12, color: Colors.brown),
                   ),
                   SizedBox(
                     height: constraints.maxHeight * 0.5,
@@ -84,6 +84,25 @@ class MarkerDialog extends StatelessWidget {
                               ),
                             ),
                           ),
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  child: InteractiveViewer(
+                                    panEnabled: true,
+                                    boundaryMargin: const EdgeInsets.all(8),
+                                    minScale: 0.5,
+                                    maxScale: 4,
+                                    child: Image.network(
+                                      markerFile.url,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         );
                       },
                     ),
@@ -101,7 +120,6 @@ class MarkerDialog extends StatelessWidget {
                             );
                           },
                         );
-                        files.fetchImages();
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
