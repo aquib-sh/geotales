@@ -7,7 +7,7 @@ class UserFile {
   final double latitude;
   final double longitude;
   final DateTime uploadTimestamp;
-  final String data;
+  final String url;
 
   UserFile({
     required this.id,
@@ -18,14 +18,10 @@ class UserFile {
     required this.latitude,
     required this.longitude,
     required this.uploadTimestamp,
-    required this.data,
+    required this.url,
   });
 
   factory UserFile.fromJson(Map<String, dynamic> json) {
-    for (String k in json.keys) {
-      if (k != 'data') print("$k : ${json[k].toString().length}");
-    }
-
     return UserFile(
       id: json['id'],
       userId: json['userId'],
@@ -35,7 +31,7 @@ class UserFile {
       latitude: json['latitude'].toDouble(),
       longitude: json['longitude'].toDouble(),
       uploadTimestamp: DateTime.parse(json['uploadTimestamp']),
-      data: json['imageContent'],
+      url: json['fileURL'],
     );
   }
 }

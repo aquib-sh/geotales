@@ -11,7 +11,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer2<FileProvider, MapProvider>(
-      builder: (context, files, map, child) => Scaffold(
+        builder: (context, files, map, child) {
+      files.fetchImages();
+      return Scaffold(
         drawer: const CustomDrawer(),
         appBar: AppBar(title: const Text("Home")),
         body: FlutterMap(
@@ -39,7 +41,7 @@ class HomeScreen extends StatelessWidget {
           onPressed: map.navigateToCurrentLocation,
           child: const Icon(Icons.location_searching),
         ),
-      ),
-    );
+      );
+    });
   }
 }

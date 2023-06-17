@@ -25,13 +25,16 @@ class MarkerDialog extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(16.0),
             child: Consumer2<FileProvider, MapProvider>(
-              builder: (context, files, map, child) => Column(
+                builder: (context, files, map, child) {
+              files.fetchImages(); // fetch the latest images
+
+              return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     '(${map.currentLocation.latitude}, ${map.currentLocation.longitude})',
-                    style: TextStyle(fontSize: 12, color: Colors.brown),
+                    style: const TextStyle(fontSize: 12, color: Colors.brown),
                   ),
                   SizedBox(
                     height: constraints.maxHeight * 0.5,
@@ -74,13 +77,32 @@ class MarkerDialog extends StatelessWidget {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: MemoryImage(
-                                  base64Decode(markerFile.data),
+                                image: NetworkImage(
+                                  markerFile.url,
                                 ),
                                 fit: BoxFit.cover,
                               ),
                             ),
                           ),
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  child: InteractiveViewer(
+                                    panEnabled: true,
+                                    boundaryMargin: const EdgeInsets.all(8),
+                                    minScale: 0.5,
+                                    maxScale: 4,
+                                    child: Image.network(
+                                      markerFile.url,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         );
                       },
                     ),
@@ -100,15 +122,15 @@ class MarkerDialog extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: theme.primaryColor,
-                        onPrimary: Colors.white,
+                        foregroundColor: Colors.white,
+                        backgroundColor: theme.primaryColor,
                       ),
                       child: const Text("Upload File"),
                     ),
                   ),
                 ],
-              ),
-            ),
+              );
+            }),
           ),
         ),
       ),
