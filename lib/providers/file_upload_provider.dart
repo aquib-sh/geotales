@@ -36,6 +36,11 @@ class FileUploadProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateImagePrivacy(int index, bool isPrivate) {
+    _imageDataList[index]['isPrivate'] = isPrivate;
+    notifyListeners();
+  }
+
   Future<bool?> uploadImages() async {
     bool allUploaded = true;
     List<Map<String, dynamic>> imageDataListCopy = _imageDataList.toList();
@@ -64,6 +69,7 @@ class FileUploadProvider with ChangeNotifier {
       request.fields['longitude'] = _map.currentLocation.longitude.toString();
       request.fields['uploadTimeStamp'] = DateTime.now().toIso8601String();
       request.fields['data'] = base64Encode(imageData['data']);
+      request.fields['isPrivate'] = imageData['isPrivate'].toString();
 
       // Send the request
       final response = await request.send();

@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class FileUploadDialog extends StatelessWidget {
-  const FileUploadDialog({super.key});
+  const FileUploadDialog({Key? key});
 
   String _getMimeType(String filePath) {
     String? mimeType = mime(filePath);
@@ -35,8 +35,16 @@ class FileUploadDialog extends StatelessWidget {
                               ['url'],
                           imagePath: fileUploadProvider.imageDataList[index]
                               ['path'],
+                          isPrivate: fileUploadProvider.imageDataList[index]
+                              ['isPrivate'],
                           onDismissed: () {
                             fileUploadProvider.removeImage(index);
+                          },
+                          onTogglePrivacy: (value) {
+                            fileUploadProvider.updateImagePrivacy(
+                              index,
+                              value,
+                            );
                           },
                         );
                       },
@@ -59,6 +67,7 @@ class FileUploadDialog extends StatelessWidget {
                               'url': pickedFile.path,
                               'path': pickedFile.path,
                               'mimeType': mimeType,
+                              'isPrivate': false
                             };
                             fileUploadProvider.addImage(imageData);
                           }
@@ -80,6 +89,7 @@ class FileUploadDialog extends StatelessWidget {
                               'url': pickedFile.path,
                               'path': pickedFile.path,
                               'mimeType': mimeType,
+                              'isPrivate': false
                             };
                             fileUploadProvider.addImage(imageData);
                           }
@@ -108,13 +118,17 @@ class FileUploadDialog extends StatelessWidget {
 class DismissibleImage extends StatelessWidget {
   final String imageUrl;
   final String imagePath;
+  final bool isPrivate;
   final VoidCallback onDismissed;
+  final ValueChanged<bool> onTogglePrivacy;
 
   const DismissibleImage({
     Key? key,
     required this.imageUrl,
     required this.imagePath,
+    required this.isPrivate,
     required this.onDismissed,
+    required this.onTogglePrivacy,
   }) : super(key: key);
 
   @override
@@ -141,6 +155,19 @@ class DismissibleImage extends StatelessWidget {
               icon: const Icon(Icons.cancel),
               color: Colors.red,
               onPressed: () => onDismissed(),
+            ),
+          ),
+          Positioned(
+            top: 8,
+            left: 8,
+            child: Row(
+              children: [
+                Text('Private'),
+                Switch(
+                  value: isPrivate,
+                  onChanged: onTogglePrivacy,
+                ),
+              ],
             ),
           ),
         ],
