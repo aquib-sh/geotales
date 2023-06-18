@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:geotales/providers/file_provider.dart';
 import 'package:geotales/providers/map_provider.dart';
+import 'package:geotales/providers/session_provider.dart';
 import 'package:geotales/widgets/file_upload_dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -24,9 +25,15 @@ class MarkerDialog extends StatelessWidget {
         child: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(16.0),
-            child: Consumer2<FileProvider, MapProvider>(
-                builder: (context, files, map, child) {
+            child: Consumer3<FileProvider, MapProvider, SessionProvider>(
+                builder: (context, files, map, session, child) {
               files.fetchImages(); // fetch the latest images
+
+              final userFiles = files.markerFiles
+                  .where((markerFile) =>
+                      !markerFile.isPrivate ||
+                      markerFile.userEmail == session.email)
+                  .toList();
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,10 +46,10 @@ class MarkerDialog extends StatelessWidget {
                   SizedBox(
                     height: constraints.maxHeight * 0.5,
                     child: ListView.separated(
-                      itemCount: files.markerFiles.length,
+                      itemCount: userFiles.length,
                       separatorBuilder: (context, index) => const Divider(),
                       itemBuilder: (context, index) {
-                        final markerFile = files.markerFiles[index];
+                        final markerFile = userFiles[index];
                         return ListTile(
                           title: Text(
                             markerFile.fileName,
